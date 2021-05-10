@@ -1,0 +1,136 @@
+import maya.cmds as cmds
+
+class TB_Window(object):
+        
+    #constructor​
+    def __init__(self):
+            
+        self.window = "TB_Window"
+        self.title = "The Toolbox Alpha Build"
+        self.size = (400, 400)
+            
+        # close old window is open
+        if cmds.window(self.window, exists = True):
+            cmds.deleteUI(self.window, window=True)
+            
+        #create​ new window
+        self.window = cmds.window(self.window, title=self.title, widthHeight=self.size)
+
+        cmds.columnLayout(adjustableColumn=True)
+        
+        cmds.separator(height=10)
+        cmds.text(self.title)
+        cmds.separator(height=10)
+        
+        #set the linear units - cm is default
+        self.sceneMeasurements = cmds.optionMenu(changeCommand=self.changeMeasurements)
+        cmds.menuItem(label="Centimetres")
+        cmds.menuItem(label="Millimetres")
+        cmds.menuItem(label="Metres")
+        
+        cmds.separator(height=5, style='none')
+        
+        #Delete history, freeze transforms and centre pivots
+        cmds.rowColumnLayout(numberOfRows=1)
+        self.deleteHistory = cmds.iconTextButton(align="center", style="iconOnly", image1="cube.xpm", label="cube", imageOverlayLabel="Delete", command=self.deleteHistory )
+        self.deleteHistory = cmds.iconTextButton( style="iconOnly", image1="cube.xpm", label="cube", imageOverlayLabel="Freeze", command=self.freezeTransforms )
+        self.deleteHistory = cmds.iconTextButton( style="iconOnly", image1="cube.xpm", label="cube", imageOverlayLabel="Pivots", command=self.centerPivots )
+        cmds.setParent('..')
+        
+        cmds.separator(height=5, style='none')
+        
+        #create locator with custom name - if left blank locator given default name
+        cmds.rowColumnLayout(numberOfRows=1)
+        self.locatorName = cmds.textFieldGrp() 
+        self.createLocatorBtn = cmds.button(label="Create Locator", command=self.createLocator, height=10)
+        cmds.setParent('..')
+        
+        cmds.separator(height=10, style='none')
+        
+        #create plane based on cm measurements and scale
+        cmds.rowColumnLayout(numberOfRows=1)
+        self.planeSize = cmds.floatFieldGrp(numberOfFields=3, value1=1, value2=1, value3=500)
+        self.createPlaneBtn = cmds.button(label="Create Plan Plane", height=10, command=self.createPlanPlane)
+        cmds.setParent('..')
+        
+        cmds.separator(height=10, style='none')
+        
+        #delete uv sets and refresh materials (current WIP)
+        cmds.rowColumnLayout(numberOfRows=1)
+        self.createPlaneBtn = cmds.button(label="Delete Extra UV Sets", height=30, width=200, command=self.deleteUVSets)
+        self.createPlaneBtn = cmds.button(label="Refresh Materials", height=30, width=200, command=self.matRefresh)
+        cmds.setParent('..')
+        
+        cmds.separator(height=3, style='none')
+        
+        #check naming conventions of objects and export settings
+        self.createPlaneBtn = cmds.button(label="Name Check", height=30, width=400, command=self.nameCheck)
+        cmds.separator(height=4, style='none')
+        self.createPlaneBtn = cmds.button(label="Export Check", height=30, width=400, command=self.exportCheck)
+
+        #display​ new window
+        cmds.showWindow()
+        
+        
+    def createLocator(self, *args):
+        lName = cmds.textFieldGrp(self.locatorName, query=True, text=True)
+        cmds.spaceLocator(name=lName)
+        
+    def changeMeasurements(self,*args):
+        sceneMV = cmds.optionMenu(self.sceneMeasurements, query=True, value=True)
+        if sceneMV == "Millimetres":
+            cmds.currentUnit(linear="millimeter")
+        elif sceneMV == "Centimetres":
+            cmds.currentUnit(linear="centimeter")
+        elif sceneMV == "Metres":
+            cmds.currentUnit(linear="in")
+      
+    def deleteHistory(self, *args):
+            cmds.delete(constructionHistory=True)
+            print("History Deleted")
+            
+    def centerPivots(self, *args):
+        for obj in cmds.ls(sl=True):
+            cmds.xform(cp=True)
+            print("Pivots Centered")
+            
+    def freezeTransforms(self, *args):
+        cmds.makeIdentity(apply=True, translate=True, scale=True)
+        
+    def createPlanPlane(self, *args):
+        cmds.currentUnit(linear="centimeter")
+        pWidth = cmds.floatFieldGrp(self.planeSize, query=True, value1=True)
+        pHeight = cmds.floatFieldGrp(self.planeSize, query=True, value2=True)
+        pScale = cmds.floatFieldGrp(self.planeSize, query=True, value3=True)
+        planPlaneHeight = pHeight * pScale
+        planPlaneWidth = pWidth * pScale
+        sitePlan = cmds.polyPlane(name="SitePlan01", subdivisionsX=1, subdivisionsY=1, height=planPlaneHeight, width=planPlaneWidth)
+        cmds.move(0,-5,0, sitePlan)
+        
+    def matRefresh(self, *args):
+        cmds.delete (cmds.ls(type='shadingDependNode'))
+        cmds.delete (cmds.ls(type='shadingEngine'))
+        
+    def nameCheck(self, *args):
+        names = ["Brick", "Misc", "Glass"]
+        mySelection = cmds.ls(selection=True)
+        if mySelection != names:
+            cmds.confirmDialog(title='Wrong Naming Convention', message='Wrong names detected please check', messageAlign="left", button=['Ok'], defaultButton='Ok')
+        else:
+            print("Names Correct")             
+       
+    def exportCheck(self, *args):
+        cmds.currentUnit(linear="centimeter")
+        cmds.delete(constructionHistory=True)
+        print("Export measurements set and history deleted")
+
+       #current WIP 
+    def deleteUVSets(self, *args):
+        print("Delete UVs")           
+        
+        
+            
+
+            
+                                          
+myWindow = TB_Window()
