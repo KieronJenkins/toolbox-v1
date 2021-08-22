@@ -1,5 +1,7 @@
 # Maya Toolbox 
 
+![Readme banner image](./static/toolbox-banner.png)
+
 <a href="https://github.com/KieronJenkins" target="_blank"><img src="https://img.shields.io/github/followers/kieronjenkins?label=Follow&style=social" alt="Github Follow">
 
 ## About
@@ -13,6 +15,8 @@ The toolbox was created at the request of artists to make their lives easier whe
 In order to use the toolbox an artist must first create a button on their custom Maya shelf and set that button to work with Python not MEL, once set up the user can simply click the assigned button, a window will pop up with the most used tools. 
 
 The tools vary from drop down boxes to checkboxes to buttons.
+  
+![Readme banner image](./static/toolbox-pic-banner.png)
 
 ## Why create a toolbox
 Artists only have so much time during the day and having to repeat tasks that can be automated daily is never a fun idea, this is where the toolbox steps in by putting all the most used tools in one place saving artists time and allows for a more efficient asset creation pipeline.
