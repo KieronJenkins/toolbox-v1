@@ -174,7 +174,7 @@ class TB_Window(object):
         
 
     def showHelp():
-        cmds.showHelp("https://docs.google.com/document/d/1NICfpaEwLb8qY3h36M5D1p_PxkdZbMsiaewjegZwtuU/edit?usp=sharing", absolute=True)
+        cmds.showHelp("https://docs.google.com", absolute=True) # Document link taken out for Github
         print("Standards Doc Opened")
                             
 
