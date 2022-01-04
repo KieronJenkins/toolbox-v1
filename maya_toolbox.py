@@ -1,5 +1,6 @@
 import maya.cmds as cmds
 import maya.mel as mel
+import maya.OpenMaya as om
 
 class TB_Window(object):
         
@@ -108,24 +109,28 @@ class TB_Window(object):
     def createLocator(self, *args):
         lName = cmds.textFieldGrp(self.locatorName, query=True, text=True)
         cmds.spaceLocator(name=lName)
+        om.MGlobal.displayInfo("Locator Created")
         
     def changeMeasurements(self,*args):
         sceneMV = cmds.optionMenu(self.sceneMeasurements, query=True, value=True)
         if sceneMV == "Millimetres":
             cmds.currentUnit(linear="millimeter")
+            om.MGlobal.displayWarning("Scale changed to MM")
         elif sceneMV == "Centimetres":
             cmds.currentUnit(linear="centimeter")
+            om.MGlobal.displayWarning("Scale changed to CM")
         elif sceneMV == "Metres":
             cmds.currentUnit(linear="in")
+            om.MGlobal.displayWarning("Scale changed to M")
       
     def deleteHistory(self, *args):
             cmds.delete(constructionHistory=True)
-            print("History Deleted")
+            om.MGlobal.displayInfo("History Deleted")
             
     def centerPivots(self, *args):
         for obj in cmds.ls(selection=True):
             cmds.xform(centerPivots=True)
-            print("Pivots Centered")
+            om.MGlobal.displayInfo("Pivots Centred")
             
     def mergePivots(self, *args):
         cmds.polyUnite()
@@ -139,7 +144,6 @@ class TB_Window(object):
     def multiCut(self, *args):  
         mel.eval("dR_multiCutTool")
         mel.eval("toolPropertyWindow")    
- 
             
     def freezeTransforms(self, *args):
         cmds.makeIdentity(apply=True, translate=True, scale=True)
@@ -153,7 +157,7 @@ class TB_Window(object):
         planPlaneWidth = pWidth * pScale
         sitePlan = cmds.polyPlane(name="SitePlan01", subdivisionsX=1, subdivisionsY=1, height=planPlaneHeight, width=planPlaneWidth)
         cmds.move(0,-5,0, sitePlan)
-        print("Scene Set to CM Measurements")
+        om.MGlobal.displayWarning("Scale changed to CM")
         
     def externalNameCheck(self, *args):
         externalNames = ["Brick","LowBrick","Brick_Flemish","Cladding","Collider","Detail_Brick","Misc","WindowBoxes","FasciaBoard","Roof",
@@ -170,13 +174,8 @@ class TB_Window(object):
             cmds.confirmDialog( title='Object Names Correct', message='Object names all good. GGz.', button=['Thanks!'], defaultButton='Yes', cancelButton='No', dismissString='No' )
         else:
             cmds.confirmDialog( title='Check Object Names', message='Names do not match standards document. Please check all names match standards document or are not needed before exporting.', button=['I Promise To Check Before Exporting'], defaultButton='Yes', cancelButton='No', dismissString='No' )
-            showHelp()
-        
-
-    def showHelp():
-        cmds.showHelp("https://docs.google.com", absolute=True) # Document link taken out for Github
-        print("Standards Doc Opened")
-                            
+            cmds.showHelp("https://docs.google.com/document/d/1NICfpaEwLb8qY3h36M5D1p_PxkdZbMsiaewjegZwtuU/edit?usp=sharing", absolute=True) 
+            om.MGlobal.displayInfo("Standards Doc Opened")   
 
     def internalNameCheck(*args):
     
@@ -192,7 +191,8 @@ class TB_Window(object):
             cmds.confirmDialog( title='Object Names Correct', message='Object names all good. GGz.', button=['Thanks!'], defaultButton='Yes', cancelButton='No', dismissString='No' )
         else:
             cmds.confirmDialog( title='Check Object Names', message='Names do not match standards document. Please check all names match standards document and/or are not needed before exporting.', button=['I Promise To Check Before Exporting'], defaultButton='Yes', cancelButton='No', dismissString='No' )
-            showHelp()     
+            cmds.showHelp("https://docs.google.com/document/d/1NICfpaEwLb8qY3h36M5D1p_PxkdZbMsiaewjegZwtuU/edit?usp=sharing", absolute=True) 
+            om.MGlobal.displayInfo("Standards Doc Opened")    
        
     def exportCheck(self, *args):
         cmds.currentUnit(linear="centimeter")
@@ -201,7 +201,7 @@ class TB_Window(object):
         cmds.confirmDialog( title='Export Settings Set', message='House Ready For Export ', button=['Thanks!'], defaultButton='Yes', cancelButton='No', dismissString='No' )
         mel.eval("ExportSelection")
         
-        print("Export measurements set and history deleted")
+        om.MGlobal.displayInfo("Export Settings Set")
 
        #current WIP 
     def deleteUVSets(self, *args):
@@ -216,7 +216,7 @@ class TB_Window(object):
         sitePlan = cmds.polyPlane(name="Wall01", subdivisionsX=1, subdivisionsY=1, height=wallHeight, width=wallWidth)
         cmds.rotate(90,0,0)
         cmds.currentUnit(linear="centimeter") #remove this line to not switch measurements
-        print("Scene Set to CM Measurements")
+        om.MGlobal.displayWarning("Scale changed to CM")
         
     def mirrorHouse(*args):
         houseTypes = ["VGLH_", "VGBH_"]
@@ -241,7 +241,7 @@ class TB_Window(object):
         cmds.xform(centerPivots=True)
         cmds.parent( "Nodes", mainHouse )      
         cmds.delete(constructionHistory=True)
-        print("House Mirrored, ADD _M TO THE END")            
+        om.MGlobal.displayWarning("House Mirrored, ADD _M TO THE END")        
              
     def matRefresh( *args):
         cmds.delete (cmds.ls(type='shadingDependNode'))
