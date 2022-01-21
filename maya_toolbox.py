@@ -191,7 +191,7 @@ class TB_Window(object):
             cmds.confirmDialog( title='Object Names Correct', message='Object names all good. GGz.', button=['Thanks!'], defaultButton='Yes', cancelButton='No', dismissString='No' )
         else:
             cmds.confirmDialog( title='Check Object Names', message='Names do not match standards document. Please check all names match standards document and/or are not needed before exporting.', button=['I Promise To Check Before Exporting'], defaultButton='Yes', cancelButton='No', dismissString='No' )
-            cmds.showHelp("https://docs.google.com/document/d/1NICfpaEwLb8qY3h36M5D1p_PxkdZbMsiaewjegZwtuU/edit?usp=sharing", absolute=True) 
+            cmds.showHelp("https://docs.google.com/document/d/1jO-k8sw9tGunaaaUN3P_nHpTFwPd4xhGS-ojoZv2yRc/edit?usp=sharing", absolute=True) 
             om.MGlobal.displayInfo("Standards Doc Opened")    
        
     def exportCheck(self, *args):
