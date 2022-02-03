@@ -22,7 +22,7 @@ The tools vary from drop-down boxes to checkboxes to buttons.
 1. To **install** the toolbox.pyc file navigate to your scripts folder (Drive:\Users\[Name]\Documents\maya\[Version]\scripts)
 2. **Copy and Paste** toolbox.pyc into the scripts folder.
 3. Launch / Restart Maya.
-4. In Maya, open a **Python Tab** in the **Script Editor** and excute:
+4. In Maya, open a **Python Tab** in the **Script Editor** and execute:
 5. **import toolbox as tb** _and_ **tb.TB_Window()** in the same tab
 
 ![Readme banner image](./static/toolbox-pic-banner.png)
