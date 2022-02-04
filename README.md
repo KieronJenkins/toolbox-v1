@@ -1,6 +1,6 @@
 # Maya Toolbox 
 
-![Readme banner image](./static/toolbox-banner.png)
+![Readme banner image](./static/toolbox-banner1.png)
 
 <a href="https://github.com/KieronJenkins" target="_blank"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="Github Follow">
 <a href="https://uk.linkedin.com/in/kieronjenkins" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="Linkedin Follow">
@@ -26,7 +26,7 @@ The tools vary from drop-down boxes to checkboxes to buttons.
 4. In Maya, open a **Python Tab** in the **Script Editor** and execute:
 5. **import toolbox as tb** _and_ **tb.TB_Window()** in the same tab
 
-![Readme banner image](./static/toolbox-pic-banner.png)
+![Readme banner image](./static/toolbox-pic-banner1.png)
 
 ## Why create a toolbox
 Artists only have so much time during the day and having to repeat tasks that can be automated daily is never a fun idea, this is where the toolbox steps in by putting all the most used tools in one place saving artists time and allowing for a more efficient asset creation pipeline.
