@@ -1,4 +1,4 @@
-# Maya Toolbox 
+# Maya Toolbox - WIP
 
 ![Readme banner image](./static/toolbox-banner1.png)
 
